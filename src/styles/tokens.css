@@ -1,0 +1,48 @@
+/*
+ * Tokens oficiales de Finax.
+ *
+ * Fuente normativa: docs/design/DESIGN_SYSTEM_FINAX.md §32.
+ * Decisiones aprobadas: docs/product/DECISIONES.md (D-01, D-02, D-11).
+ *
+ * Este archivo es la única definición de los tokens. No duplicar valores
+ * en componentes ni introducir colores fuera de esta lista.
+ *
+ * NO EXISTEN todavía, por decisión del Product Owner:
+ *   - tokens de advertencia e información (D-02, PENDIENTE);
+ *   - paleta categórica de gráficos (D-03, PENDIENTE);
+ *   - regla de color de texto sobre superficies primarias (D-01, PENDIENTE).
+ * No crearlos sin aprobación.
+ */
+
+/* Los colores se declaran en @theme para que Tailwind genere las utilidades
+   correspondientes con los mismos nombres definidos en el Design System. */
+@theme {
+  --color-primary: #00cba0;
+  --color-secondary: #2d7ff9;
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+
+  --color-background: #ffffff;
+  --color-surface: #f7f7f7;
+  --color-text-primary: #111111;
+  --color-text-secondary: #6b6b6b;
+  --color-border: #d6d6d6;
+  --color-track: #eaeaea;
+  --color-muted-nontext: #9a9a9a;
+}
+
+:root {
+  --font-family: "Inter Variable", "Inter", sans-serif;
+
+  --space-unit: 4px;
+
+  --radius: 8px;
+  --radius-full: 999px;
+
+  --control-height-primary: 52px;
+  --touch-target-min: 44px;
+
+  --motion-fast: 200ms;
+  --motion-standard: 250ms;
+  --motion-slow: 300ms;
+}

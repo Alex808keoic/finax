@@ -1,0 +1,22 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Configuración local de herramientas
+.claude/settings.local.json
+
+# Sistema operativo
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
