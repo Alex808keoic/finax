@@ -1,7 +1,8 @@
 # Finax — Design System
 
-**Versión:** Core v1.0  
-**Estado:** Oficial para la implementación visual, salvo elementos marcados como PENDIENTE
+**Versión:** Core v1.1  
+**Estado:** Oficial para la implementación visual, salvo elementos marcados como PENDIENTE  
+**Última actualización:** 2026-08-14 — incorpora las decisiones aprobadas en `docs/product/DECISIONES.md`
 
 ---
 
@@ -27,28 +28,31 @@ Cada pantalla debe tener un objetivo claro y una jerarquía visual evidente.
 
 ---
 
-## 2. Referencia visual definitiva
+## 2. Referencia visual y precedencia
 
-La referencia visual oficial es:
+La referencia visual del proyecto es:
 
 `docs/design/FINAX_VISUAL_REFERENCE.png`
 
-Debe utilizarse como referencia principal para:
+Su carácter es **ilustrativo**, no normativo.
 
-- composición;
-- jerarquía;
-- densidad;
-- proporciones;
-- tarjetas;
-- botones;
-- navegación;
-- espaciado;
-- estilo de gráficos;
-- apariencia general.
+### Precedencia (aprobada el 2026-08-14)
 
-El objetivo no es reinterpretar la referencia como un producto diferente.
+| Documento | Rol |
+|---|---|
+| Documento Maestro | fuente de verdad del producto |
+| `AXIS_FINAL` | fuente normativa de AXIS |
+| Este Design System | fuente normativa del sistema visual |
+| `FINAX_VISUAL_REFERENCE.png` | referencia visual ilustrativa |
 
-La implementación debe reproducir su lenguaje visual y adaptarlo únicamente cuando el Documento Maestro o este Design System lo exijan.
+Reglas:
+
+1. Cuando este Design System define explícitamente algo, **prevalece el Design System**.
+2. Cuando el Design System no define algo y no existe conflicto con producto, la PNG puede utilizarse como referencia de **composición, proporciones, densidad y apariencia**.
+3. **La PNG nunca puede modificar decisiones de producto.**
+4. Un elemento presente en la PNG no es, por sí solo, una funcionalidad aprobada.
+
+El objetivo no es reinterpretar la referencia como un producto diferente, pero tampoco reproducirla cuando contradiga al Design System o al Documento Maestro.
 
 ---
 
@@ -93,23 +97,44 @@ Cada componente visual debe tener una función.
 
 ## 5. Paleta
 
+### Paleta base
+
 | Token | Valor | Uso |
 |---|---|---|
-| `--color-primary` | `#4F7CFF` | acciones principales, acentos, progreso |
+| `--color-primary` | `#00CBA0` | acciones principales, acentos, progreso |
+| `--color-secondary` | `#2D7FF9` | acento secundario |
 | `--color-background` | `#FFFFFF` | fondo principal |
 | `--color-surface` | `#F7F7F7` | tarjetas y contenedores |
 | `--color-text-primary` | `#111111` | texto principal |
 | `--color-text-secondary` | `#6B6B6B` | texto secundario |
-| `--color-secondary` | `#DCE8FF` | estados y detalles secundarios |
 | `--color-border` | `#D6D6D6` | bordes y divisores |
 | `--color-track` | `#EAEAEA` | pistas de progreso y anillos |
 | `--color-muted-nontext` | `#9A9A9A` | iconos inactivos y anotaciones internas |
 
+Primario y secundario fueron aprobados el 2026-08-14 (`docs/product/DECISIONES.md`, D-01). Los valores anteriores `#4F7CFF` y `#DCE8FF` quedan derogados.
+
 `#9A9A9A` no debe utilizarse como color de texto normal.
 
-Los colores semánticos independientes de éxito/error/advertencia no están cerrados como decisión de producto.
+### Colores semánticos
 
-**PENDIENTE:** no inventar una paleta semántica definitiva sin aprobación.
+| Token | Valor | Uso |
+|---|---|---|
+| `--color-success` | `#22C55E` | éxito |
+| `--color-danger` | `#EF4444` | peligro |
+
+Aprobados el 2026-08-14 (D-02).
+
+**PENDIENTE:** **Advertencia** e **Información** no están aprobados como tokens. No crear tokens ni valores provisionales equivalentes.
+
+**PENDIENTE:** no está decidido qué color representa los importes de ingreso frente a los de gasto, ni la relación entre el primario `#00CBA0` y el verde de éxito `#22C55E`.
+
+**PENDIENTE:** el token secundario anterior (`#DCE8FF`) actuaba como tinte claro de fondo. `#2D7FF9` es un acento saturado y no cumple esa función. Si se necesita un tinte claro, debe aprobarse antes de crearlo.
+
+**PENDIENTE:** color de texto sobre superficies primarias. Texto blanco sobre `#00CBA0` ofrece un contraste aproximado de 2,1:1, insuficiente según §31; texto oscuro sobre `#00CBA0` ofrece aproximadamente 10:1. Blanco sobre `#2D7FF9` ofrece aproximadamente 3,8:1, válido solo para texto grande. La regla debe aprobarse antes de construir el botón primario.
+
+### Paleta categórica de gráficos
+
+**PENDIENTE.** No inventar colores categóricos ni derivarlos del primario, del secundario o de la referencia visual (D-03).
 
 ---
 
@@ -169,6 +194,8 @@ Utilizarlo únicamente para:
 - badges;
 - elementos circulares.
 
+Confirmado el 2026-08-14 (D-11).
+
 ---
 
 ## 9. Elevación
@@ -183,6 +210,8 @@ La separación visual debe conseguirse mediante:
 - espacio en blanco.
 
 No utilizar `box-shadow` como elemento visual habitual.
+
+Confirmado el 2026-08-14 (D-11).
 
 ---
 
@@ -262,6 +291,8 @@ Patrón principal:
 - jerarquía interna clara;
 - suficiente whitespace.
 
+Confirmado el 2026-08-14 (D-11).
+
 Las tarjetas con la misma función deben reutilizar el mismo patrón.
 
 No crear estilos diferentes para tarjetas equivalentes.
@@ -278,6 +309,14 @@ Debe priorizar:
 2. información relevante;
 3. estrategia de AXIS;
 4. accesos rápidos a las funciones principales.
+
+### Contenido aprobado (2026-08-14, D-10)
+
+Inicio debe incluir:
+
+- el bloque **«¿Qué hacer con mi dinero?»** de AXIS;
+- **objetivos destacados**;
+- el resto de la estructura definida por el Documento Maestro, Módulo 1 §4: saludo personalizado, tarjeta de patrimonio actual, resumen de ingresos y gastos del periodo, evolución del patrimonio, accesos rápidos y espacio para recomendaciones de AXIS.
 
 El contenido exacto debe seguir el Documento Maestro.
 
@@ -309,6 +348,10 @@ No convertir la pantalla en una tabla financiera densa.
 ---
 
 ## 16. Estadísticas
+
+Estadísticas es un **módulo/ruta propio**, no una vista interna de Mi Dinero (2026-08-14, D-06).
+
+**PENDIENTE:** el Documento Maestro (Módulo 2 §4) lista gráficos de evolución y distribución por categorías también entre los componentes de Mi Dinero. El reparto exacto de gráficos entre ambos módulos no está aprobado.
 
 Las estadísticas deben priorizar comprensión sobre cantidad.
 
@@ -345,6 +388,8 @@ Los datos que dependan de una API externa deben indicar correctamente su estado 
 
 ## 18. Objetivos
 
+Objetivos tiene **acceso propio como módulo/ruta en V1** (2026-08-14, D-07).
+
 Los objetivos deben visualizarse de forma clara y comprensible.
 
 La interfaz debe mostrar el progreso utilizando datos financieros reales definidos por producto.
@@ -360,6 +405,13 @@ La presentación debe mantener el lenguaje visual general de Finax.
 AXIS es una capa transversal de inteligencia integrada dentro de Finax.
 
 No debe parecer una aplicación independiente.
+
+### Superficie principal (2026-08-14, D-09)
+
+- El módulo se llama **AXIS**.
+- El **Centro Estratégico** es la **superficie principal** de AXIS.
+- El **chat** es una **vista secundaria dentro de AXIS**.
+- AXIS **no** debe presentarse como una «IA Financiera» chat-first.
 
 Debe compartir:
 
@@ -396,6 +448,8 @@ El diseño no debe hacer que una recomendación parezca una orden.
 ---
 
 ## 20. Centro Estratégico / Informe Diario
+
+El Centro Estratégico es la superficie principal de AXIS (D-09) y la entrada natural desde el bloque «¿Qué hacer con mi dinero?» de Inicio (D-10).
 
 Cuando se muestre el análisis estratégico de AXIS, la estructura visual debe facilitar la lectura progresiva.
 
@@ -505,7 +559,9 @@ Características:
 
 El contenido exacto de las pestañas debe seguir la especificación final.
 
-**PENDIENTE:** si el contenido definitivo no está cerrado, utilizar `MOCK` y no inventar destinos.
+**PENDIENTE:** el reparto definitivo de la navegación no está aprobado. Existen seis destinos candidatos (Inicio, Mi Dinero, Estadísticas, Inversiones, Objetivos, AXIS) tras D-06, D-07 y D-08. Mientras siga abierto, utilizar `MOCK` y no inventar destinos.
+
+**Cuentas** y **Presupuesto** aparecen en la referencia visual pero **no forman parte de V1** (D-08). No deben aparecer en la navegación ni implementarse.
 
 ---
 
@@ -527,6 +583,8 @@ Evitar:
 - elementos 3D;
 - decoración innecesaria.
 
+**PENDIENTE:** la paleta categórica de gráficos no está aprobada (D-03). Ningún gráfico por categoría puede considerarse terminado hasta que se cierre esa decisión.
+
 ---
 
 ## 27. Formularios
@@ -545,6 +603,15 @@ Los campos deben tener un área táctil cómoda.
 Los errores deben mostrarse cerca del campo afectado.
 
 No pedir información que Finax no necesite realmente.
+
+### Formulario de movimiento (2026-08-14, D-04 y D-05)
+
+Categorías, exactamente: **Comida · Restaurantes · Salidas · Caprichos · Ropa · Otros**. No añadir, renombrar ni reordenar.
+
+- **Motivo:** obligatorio únicamente cuando la categoría sea «Otros». Su texto sustituye a la palabra «Otros» en el historial.
+- **Nota:** campo opcional, separado del Motivo, que **no** lo sustituye.
+
+**PENDIENTE:** disponibilidad de la Nota por categoría y su presencia en el historial frente a la ficha de detalle.
 
 ---
 
@@ -622,12 +689,15 @@ Los iconos interactivos deben tener área táctil suficiente.
 
 ```css
 :root {
-  --color-primary: #4F7CFF;
+  --color-primary: #00CBA0;
+  --color-secondary: #2D7FF9;
+  --color-success: #22C55E;
+  --color-danger: #EF4444;
+
   --color-background: #FFFFFF;
   --color-surface: #F7F7F7;
   --color-text-primary: #111111;
   --color-text-secondary: #6B6B6B;
-  --color-secondary: #DCE8FF;
   --color-border: #D6D6D6;
   --color-track: #EAEAEA;
   --color-muted-nontext: #9A9A9A;
@@ -648,14 +718,22 @@ Los iconos interactivos deben tener área táctil suficiente.
 }
 ```
 
+No existen tokens de advertencia ni de información: no están aprobados (D-02).
+
+No existe paleta categórica de gráficos: no está aprobada (D-03).
+
 ---
 
 ## 33. No inventar
 
+El estado actualizado de las decisiones abiertas está en `docs/product/DECISIONES.md` §4.
+
 Las decisiones siguientes requieren aprobación si todavía no están cerradas:
 
 - detalles visuales que contradigan el Documento Maestro;
-- colores semánticos definitivos;
+- tokens de advertencia e información;
+- paleta categórica de gráficos;
+- color de texto sobre superficies primarias;
 - comportamientos de componentes no especificados;
 - copy definitivo de AXIS cuando falte contexto;
 - destinos definitivos de navegación si no están cerrados;
@@ -695,8 +773,10 @@ Antes de modificar la interfaz, Claude Code debe leer:
 2. `README.md`
 3. `TECH_STACK.md`
 4. `docs/product/DOCUMENTO_MAESTRO_FINAX.docx`
-5. `docs/design/DESIGN_SYSTEM_FINAX.md`
-6. `docs/design/FINAX_VISUAL_REFERENCE.png`
+5. `docs/product/AXIS_FINAL.docx`
+6. `docs/product/DECISIONES.md`
+7. `docs/design/DESIGN_SYSTEM_FINAX.md`
+8. `docs/design/FINAX_VISUAL_REFERENCE.png`
 
 Debe:
 
@@ -711,7 +791,9 @@ Debe:
 
 ## 36. Regla de oro
 
-**Finax debe verse como la referencia visual definitiva y comportarse como el Documento Maestro.**
+**Finax debe verse como define este Design System y comportarse como el Documento Maestro.**
+
+La referencia visual acompaña, pero no decide.
 
 La tecnología debe respetar el producto.
 

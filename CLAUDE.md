@@ -4,12 +4,15 @@
 
 Este archivo establece las reglas operativas que Claude debe seguir al trabajar en Finax.
 
-La documentación oficial del proyecto tiene prioridad sobre cualquier suposición del modelo. Los dos documentos de referencia que acompañan al proyecto son:
+La documentación oficial del proyecto tiene prioridad sobre cualquier suposición del modelo. Los documentos de referencia que acompañan al proyecto son:
 
-- `FINAX_Documento_Maestro_Oficial.docx`
-- `AXIS_FINAL.docx`
+- `docs/product/DOCUMENTO_MAESTRO_FINAX.docx`
+- `docs/product/AXIS_FINAL.docx`
+- `docs/product/DECISIONES.md`
+- `docs/design/DESIGN_SYSTEM_FINAX.md`
+- `docs/design/FINAX_VISUAL_REFERENCE.png`
 
-Estos documentos definen el producto, su metodología, arquitectura y el comportamiento esperado de AXIS.
+Los dos primeros definen el producto, su metodología, arquitectura y el comportamiento esperado de AXIS. `DECISIONES.md` recoge las decisiones aprobadas posteriormente por el Product Owner. El Design System define el sistema visual. La PNG es una referencia visual ilustrativa.
 
 ---
 
@@ -63,10 +66,20 @@ Prioridad:
 1. Código actual del repositorio.
 2. Documento Maestro Oficial de Finax.
 3. `AXIS_FINAL.docx` para todo lo relacionado con AXIS.
-4. Decisiones aprobadas posteriormente por el Product Owner y documentadas.
-5. Cualquier otra información solo sirve como contexto secundario.
+4. Decisiones aprobadas posteriormente por el Product Owner y documentadas en `docs/product/DECISIONES.md`.
+5. `docs/design/DESIGN_SYSTEM_FINAX.md` como fuente normativa del sistema visual.
+6. `docs/design/FINAX_VISUAL_REFERENCE.png` como referencia visual ilustrativa.
+7. Cualquier otra información solo sirve como contexto secundario.
+
+Sobre la referencia visual:
+
+- Cuando el Design System define explícitamente algo, prevalece el Design System.
+- Cuando el Design System no define algo y no existe conflicto con producto, la PNG puede servir como referencia de composición, proporciones, densidad y apariencia.
+- La PNG nunca puede modificar decisiones de producto.
 
 No inventar requisitos que no estén definidos.
+
+Lo marcado como PENDIENTE en la documentación no puede cerrarse por iniciativa de Claude Code.
 
 Si existe una contradicción importante entre documentación y código, no ocultarla: identificarla y proponer una solución antes de modificar una parte fundamental.
 

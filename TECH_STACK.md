@@ -93,6 +93,8 @@ y
 
 No crear estilos arbitrarios que contradigan el Design System.
 
+Cuando el Design System y la referencia visual difieran, prevalece el Design System.
+
 ---
 
 ## 6. Componentes UI
@@ -217,13 +219,15 @@ Las rutas deben representar las principales áreas funcionales:
 
 - Inicio;
 - Mi Dinero;
-- Estadísticas;
+- Estadísticas — módulo/ruta propio, no una vista interna de Mi Dinero (`docs/product/DECISIONES.md`, D-06);
 - Inversiones;
-- Objetivos;
-- áreas específicas de AXIS;
+- Objetivos — acceso propio como módulo/ruta en V1 (D-07);
+- AXIS, cuya superficie principal es el Centro Estratégico y cuyo chat es una vista secundaria (D-09);
 - ajustes y utilidades cuando corresponda.
 
-La navegación principal seguirá el modelo móvil definido en el Design System.
+**Cuentas** y **Presupuesto** no forman parte de V1 (D-08). No crear rutas, modelos de datos ni componentes para ellos.
+
+La navegación principal seguirá el modelo móvil definido en el Design System. El reparto definitivo de la barra inferior está PENDIENTE.
 
 ---
 
@@ -244,6 +248,8 @@ Ejemplos:
 Los gráficos deben seguir el Design System.
 
 No utilizar gráficos simplemente porque sea técnicamente posible.
+
+La paleta categórica de gráficos está **PENDIENTE** (`docs/product/DECISIONES.md`, D-03). No inventar colores de categoría.
 
 ---
 
@@ -628,9 +634,10 @@ Antes de implementar, Claude Code debe consultar:
 2. `README.md`
 3. `TECH_STACK.md`
 4. `docs/product/DOCUMENTO_MAESTRO_FINAX.docx`
-5. documentación específica de AXIS si está disponible
-6. `docs/design/DESIGN_SYSTEM_FINAX.md`
-7. `docs/design/FINAX_VISUAL_REFERENCE.png`
+5. `docs/product/AXIS_FINAL.docx`
+6. `docs/product/DECISIONES.md`
+7. `docs/design/DESIGN_SYSTEM_FINAX.md`
+8. `docs/design/FINAX_VISUAL_REFERENCE.png`
 
 Cada documento tiene una responsabilidad diferente:
 
@@ -638,9 +645,10 @@ Cada documento tiene una responsabilidad diferente:
 - `README.md` → visión y orientación del proyecto.
 - `TECH_STACK.md` → decisiones técnicas.
 - Documento Maestro → producto y funcionalidades.
-- Documentación AXIS → comportamiento e inteligencia de AXIS.
-- Design System → reglas visuales.
-- Visual Reference → referencia estética.
+- `AXIS_FINAL` → comportamiento e inteligencia de AXIS.
+- `DECISIONES.md` → decisiones aprobadas posteriormente y decisiones abiertas.
+- Design System → reglas visuales; prevalece cuando define algo explícitamente.
+- Visual Reference → referencia visual ilustrativa; nunca modifica decisiones de producto.
 
 ---
 
