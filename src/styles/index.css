@@ -27,3 +27,35 @@ a,
 button {
   min-height: var(--touch-target-min);
 }
+
+/*
+ * Movimiento: rápido, suave y funcional (Design System §12).
+ * Solo aparición de capas; no hay animación decorativa.
+ */
+@keyframes finax-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes finax-slide-up {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+}
+
+.motion-fade {
+  animation: finax-fade-in var(--motion-fast) ease-out;
+}
+
+.motion-slide-up {
+  animation: finax-slide-up var(--motion-standard) ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-fade,
+  .motion-slide-up {
+    animation: none;
+  }
+}

@@ -3,8 +3,11 @@
  *
  * Existe únicamente para que el esqueleto de navegación sea verificable.
  * No representa la interfaz final de ningún módulo y debe sustituirse
- * cuando cada módulo se implemente según el Documento Maestro.
+ * cuando cada módulo se implemente según el Documento Maestro y el
+ * Visual System.
  */
+
+import { PageHeader } from "./ui/PageHeader";
 
 type ModulePlaceholderProps = {
   title: string;
@@ -12,9 +15,9 @@ type ModulePlaceholderProps = {
 
 export function ModulePlaceholder({ title }: ModulePlaceholderProps) {
   return (
-    <section className="px-4 py-6">
-      <h1 className="text-[32px] font-semibold tracking-tight">{title}</h1>
-      <p className="mt-2 text-[13px] text-text-secondary">
+    <section className="mx-auto max-w-[560px]">
+      <PageHeader title={title} />
+      <p className="px-4 text-[13px] text-text-secondary">
         Módulo pendiente de implementación.
       </p>
     </section>

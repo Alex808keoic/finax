@@ -2,7 +2,8 @@
 
 **Estado:** DEFINITIVO — aprobado para implementación visual V1  
 **Uso:** referencia normativa para la implementación visual de Finax  
-**Referencia visual principal:** `docs/design/FINAX_VISUAL_REFERENCE_V2.png`  
+**Referencia visual principal:** `docs/design/FINAX_VISUAL_REFERENCE.png`  
+**Referencia estética de AXIS:** `docs/design/FINAX_AXIS_VISUAL_REFERENCE.png` — solo estética; no define producto, arquitectura ni comportamiento  
 **Relación con `DESIGN_SYSTEM_FINAX.md`:** este documento concreta visualmente el sistema para pantallas, estados y componentes. No modifica decisiones de producto del Documento Maestro ni de `DECISIONES.md`.
 
 > **Objetivo de esta versión:** eliminar la ambigüedad que podría obligar a Claude Code a “interpretar” el diseño. Cada pantalla principal y cada pantalla secundaria debe tener una composición, jerarquía, contenido permitido, acciones y estados definidos.
@@ -32,7 +33,7 @@ La interfaz es **mobile-first**. Las pantallas de escritorio deben adaptarse sin
 
 La referencia visual oficial para este sistema es:
 
-`docs/design/FINAX_VISUAL_REFERENCE_V2.png`
+`docs/design/FINAX_VISUAL_REFERENCE.png`
 
 La imagen define principalmente:
 
@@ -58,8 +59,8 @@ La imagen define principalmente:
 | `AXIS_FINAL.docx` | fuente normativa de AXIS |
 | `DECISIONES.md` | decisiones de producto aprobadas posteriormente |
 | `DESIGN_SYSTEM_FINAX.md` | reglas normativas globales del sistema visual |
-| `FINAX_VISUAL_SYSTEM_V1_1.md` | especificación visual concreta de pantallas y componentes |
-| `FINAX_VISUAL_REFERENCE_V2.png` | referencia estética y compositiva |
+| `FINAX_VISUAL_SYSTEM_V1_FINAL.md` | especificación visual concreta de pantallas y componentes |
+| `FINAX_VISUAL_REFERENCE.png` | referencia estética y compositiva |
 
 Cuando una decisión de producto contradiga una imagen, prevalece el producto.
 
@@ -126,7 +127,7 @@ No utilizar slogans nuevos sin aprobación.
 
 La paleta visual V1 está cerrada.
 
-Tokens definitivos adicionales:
+Tokens definitivos adicionales, aprobados el 2026-08-15 en `DECISIONES.md` **D-17**:
 
 | Token | Valor | Uso |
 |---|---|---|
@@ -136,7 +137,12 @@ Tokens definitivos adicionales:
 | `--color-expense` | `#EF4444` | gastos |
 | `--color-secondary-tint` | `#DCE8FF` | fondos y estados secundarios |
 
+`--color-income` comparte valor con `--color-success`, y `--color-expense` con `--color-danger`.
+Son tokens distintos a propósito: significan cosas distintas y podrían divergir.
+
 No crear colores literales nuevos en componentes.
+
+**Sigue PENDIENTE** la paleta categórica de gráficos (D-03). D-17 no la cierra.
 
 ### Texto sobre primario
 
@@ -145,6 +151,8 @@ Sobre `#00CBA0` utilizar `#111111`.
 No utilizar texto blanco sobre `#00CBA0`.
 
 ### Ingresos y gastos
+
+Aprobado el 2026-08-15 (D-17).
 
 Ingresos utilizan `--color-income` y gastos `--color-expense`.
 
@@ -179,6 +187,22 @@ Prioridad:
 La jerarquía se crea primero con tamaño, peso y espacio; el color es secundario.
 
 No introducir una segunda familia tipográfica.
+
+### Escala
+
+`48 / 32 / 20 / 16 / 13 px` (D-25).
+
+El nivel de 48 px, llamado `hero`, corresponde al punto 1 de la jerarquía: la
+cifra financiera principal. Se reserva al patrimonio principal, al patrimonio
+invertido cuando sea la cifra protagonista y a las cifras financieras de máxima
+jerarquía que este documento indique expresamente. **Una sola por pantalla.**
+
+Cuando una pantalla muestre una cifra financiera que no sea su elemento
+principal, el nivel correcto es 32 px. Es lo que ocurre en Estadísticas: allí el
+protagonista es el análisis, no la cifra.
+
+Los tamaños concretos y sus reglas viven en `docs/design/DESIGN_SYSTEM_FINAX.md`
+§6, que es la fuente única de la escala.
 
 ---
 
@@ -387,9 +411,16 @@ Respetar `prefers-reduced-motion`.
 
 ## 14.1 Modelo general
 
-La navegación inferior tendrá **cinco secciones principales**, una vez cerrado el reparto definitivo en `DECISIONES.md`.
+La navegación inferior tiene **cinco secciones principales**, aprobadas el 2026-08-15 en
+`DECISIONES.md` **D-20**:
 
-Mientras el reparto siga PENDIENTE, no fijar por código una navegación definitiva.
+1. **Inicio**
+2. **Mi Dinero**
+3. **Inversiones**
+4. **Objetivos**
+5. **AXIS**
+
+El reparto está cerrado. No añadir una sexta pestaña.
 
 ## 14.2 Regla de composición
 
@@ -406,34 +437,47 @@ La barra:
 
 No convertir cada funcionalidad en una pestaña.
 
-AXIS, Estadísticas u otras superficies que no entren en la barra definitiva deben alcanzarse desde el lugar definido por producto.
+Superficies fuera de la barra y su acceso aprobado (D-19 y D-20):
+
+| Superficie | Acceso |
+|---|---|
+| **Movimientos** | desde Mi Dinero, mediante «Ver todos» o equivalente |
+| **Estadísticas** | desde Mi Dinero. Mantiene ruta propia `/estadisticas` (D-06) |
+| **Ajustes** | desde la cabecera |
+
+Que una superficie no esté en la barra no la convierte en una vista interna: Estadísticas sigue
+siendo un módulo con ruta propia.
 
 ---
 
 # 15. Relación entre pantallas
 
-Esta jerarquía debe mantenerse:
+Esta jerarquía debe mantenerse. Las secciones marcadas como **principal** están en la barra
+inferior (D-20); las marcadas como **secundaria** se alcanzan desde donde indica el §14.3.
 
-**Inicio**  
+**Inicio** · principal  
 → resumen global y decisiones prioritarias.
 
-**Mi Dinero**  
+**Mi Dinero** · principal  
 → situación financiera operativa y patrimonio líquido.
 
-**Movimientos**  
+**Movimientos** · secundaria, desde Mi Dinero  
 → registro y gestión detallada de ingresos/gastos.
 
-**Estadísticas**  
+**Estadísticas** · secundaria, desde Mi Dinero, con ruta propia  
 → interpretación visual de datos.
 
-**Inversiones**  
+**Inversiones** · principal  
 → patrimonio invertido y cartera.
 
-**Objetivos**  
+**Objetivos** · principal  
 → metas y progreso.
 
-**AXIS**  
+**AXIS** · principal  
 → análisis estratégico y recomendaciones.
+
+**Ajustes** · secundaria, desde la cabecera  
+→ datos, respaldo, privacidad e información.
 
 Ninguna pantalla debe duplicar datos como si fuera propietaria de ellos.
 
@@ -466,11 +510,17 @@ Orden preferente:
    - gastos del periodo;
    - balance del periodo.
 
-4. **AXIS — “¿Qué hacer con mi dinero?”**
-   - tarjeta diferenciada;
-   - resumen breve;
-   - recomendación o confirmación de que no hace falta actuar;
-   - acceso a `Ver análisis completo`.
+4. **AXIS — presencia contextual**
+   - **no es una tarjeta del dashboard**: es la burbuja de AXIS, su presencia visual como gestor financiero;
+   - etiqueta `AXIS`;
+   - burbuja (`AXISBubble`), de tamaño menor que el patrimonio;
+   - la pregunta estratégica, con este copy **exacto**:
+     **¿Cómo puedes mejorar tu situación financiera?**
+   - acceso `Ver análisis` → `/axis`.
+
+   La pregunta **no es una recomendación**: es lo que AXIS recibe. Mientras el
+   motor de AXIS no exista, Inicio no puede mostrar conclusiones ni insights
+   (§8 de esta especificación y `AXIS_FINAL` Parte XIV §11).
 
 5. **Objetivos destacados**
    - pocos objetivos;
@@ -519,10 +569,13 @@ Orden:
 2. tarjeta de patrimonio;
 3. saldo inicial y acción `Modificar`;
 4. resumen del día/periodo;
-5. evolución del patrimonio cuando corresponda al alcance visual aprobado;
-6. últimos movimientos;
-7. accesos rápidos;
+5. evolución del patrimonio, **integrada dentro del bloque de patrimonio** y no como tarjeta aparte (D-21);
+6. últimos movimientos, con acceso `Ver todos` a la superficie Movimientos;
+7. accesos rápidos, incluido el acceso a Estadísticas;
 8. acción `Nuevo movimiento`.
+
+Mi Dinero es el punto de entrada de las dos superficies secundarias del §14.3: **Movimientos** y
+**Estadísticas**.
 
 ## 17.3 Patrimonio
 
@@ -531,11 +584,13 @@ La tarjeta debe mostrar:
 - `Patrimonio actual`;
 - cifra principal;
 - variación;
-- gráfico si existe historial;
-- selector temporal cuando exista;
+- **curva compacta de evolución**, integrada en el mismo bloque, cuando exista historial suficiente (D-21);
+- selector temporal solo si el historial lo justifica;
 - acceso a editar saldo inicial.
 
-La cifra debe dominar visualmente.
+La cifra debe dominar visualmente. La cifra y su curva forman una única historia: dato principal y evolución no se separan en dos tarjetas.
+
+Cuando no haya historial suficiente, mostrar el estado de datos insuficientes del §29 explicando qué falta. Nunca dibujar una curva inventada ni interpolar puntos que no existen.
 
 ## 17.4 Estados
 
@@ -573,8 +628,11 @@ Cada fila puede mostrar:
 - icono/marcador;
 - nombre o Motivo que corresponda;
 - categoría;
-- hora/fecha cuando corresponda;
+- fecha cuando corresponda;
 - importe con signo.
+
+**No mostrar hora.** El modelo de movimientos guarda únicamente la fecha `YYYY-MM-DD` (D-18). Las
+horas que aparecen en la referencia visual son MOCK y no deben reproducirse.
 
 No mostrar Nota.
 
@@ -600,17 +658,35 @@ Convertir datos en comprensión.
 ## 19.2 Estructura
 
 1. título `Estadísticas`;
-2. selector de periodo;
-3. evolución del patrimonio;
-4. ingresos vs gastos;
-5. distribución por categorías cuando D-03 esté aprobada;
-6. lectura/resumen principal.
+2. **selector de periodo**: `1M · 3M · 6M · 1A · Todo` (D-23);
+3. resumen del periodo: patrimonio actual, ingresos, gastos y balance;
+4. evolución del patrimonio, en versión detallada (D-21);
+5. ingresos vs gastos;
+6. distribución por categorías cuando D-03 esté aprobada.
+
+### Selector de periodo
+
+Las cinco opciones son las de D-23. **No** hay semana, año ni periodo
+personalizado.
+
+Solo se ofrecen los periodos que recortan el historial de verdad: uno cuyo
+inicio sea anterior al primer movimiento mostraría lo mismo que «Todo» y no se
+muestra. Cuando solo queda un periodo válido, se explica en lugar de enseñar
+chips que no cambian nada.
+
+### Indicadores no disponibles
+
+**No mostrar gasto medio** mientras D-24 siga PENDIENTE: el Documento Maestro
+lo menciona pero no define su fórmula, y elegir una sería inventar una regla
+financiera.
 
 ## 19.3 Relación con Mi Dinero
 
 Mi Dinero es la fuente de datos.
 
 Estadísticas no crea ni mantiene una copia independiente de movimientos o patrimonio.
+
+Reparto aprobado (D-21): **Mi Dinero** lleva la curva compacta de evolución, de lectura inmediata e integrada con el patrimonio. **Estadísticas** lleva el análisis completo: periodos, comparaciones, métricas, gráficos detallados y categorías. **No duplicar la misma gráfica completa en ambas pantallas.**
 
 ## 19.4 Regla
 
@@ -658,6 +734,9 @@ Debe permitir entender:
 - evolución;
 - última actualización.
 
+Todos estos campos son **derivados**: Finax los calcula u obtiene, no los
+teclea el usuario (D-22). Mostrarlos no implica que sean editables.
+
 No inventar datos de mercado.
 
 No usar fotografías como requisito visual principal.
@@ -683,15 +762,25 @@ Mostrar metas financieras sin gamificación.
 
 ## 21.2 Estructura
 
-1. título `Objetivos`;
-2. lista de objetivos;
-3. cada objetivo muestra:
+1. cabecera `Objetivos`, con la acción de crear a la derecha;
+2. **resumen del progreso conjunto**, solo cuando existan objetivos reales:
+   porcentaje total, barra, número de objetivos, ahorrado y meta;
+3. lista de objetivos;
+4. cada objetivo muestra, en este orden:
    - nombre;
-   - progreso;
-   - cantidad actual;
-   - cantidad objetivo;
+   - **progreso**, como porcentaje en texto y como barra;
+   - cantidad actual y cantidad objetivo;
    - fecha si corresponde;
-4. acción `Nuevo objetivo`.
+5. acción `Crear objetivo`.
+
+El progreso es el elemento visual más importante de la tarjeta, y **nunca se
+comunica solo con la barra**: el porcentaje aparece siempre como texto (§31).
+
+Sin objetivos no hay resumen: no se muestran porcentajes de una realidad que
+todavía no existe.
+
+Un objetivo alcanzado se marca de forma sobria, con una etiqueta discreta. Sin
+celebración, sin gamificación.
 
 ## 21.3 Nuevo objetivo
 
@@ -699,8 +788,11 @@ Campos visuales:
 
 - nombre;
 - objetivo monetario;
-- fecha objetivo;
-- información necesaria para calcular el progreso.
+- fecha objetivo.
+
+**No hay campo de aportación ni de ahorro mensual.** El progreso se calcula
+automáticamente a partir de los datos financieros reales y no existen
+aportaciones manuales (Documento Maestro, Módulo 5 §6 y §11).
 
 No usar imágenes.
 
@@ -724,17 +816,31 @@ AXIS convierte contexto financiero en análisis y recomendaciones explicables.
 
 El Centro Estratégico es la superficie principal.
 
-Orden visual:
+Orden visual (D-26, aprobado el 2026-08-16):
 
-1. cabecera `AXIS`;
-2. estado general;
-3. estrategia actual;
-4. hallazgos relevantes;
-5. alternativas;
-6. recomendación;
-7. nivel de confianza/incertidumbre;
-8. conclusión;
+1. cabecera `AXIS`, identificada como Centro Estratégico;
+2. presencia de AXIS y pregunta estratégica;
+3. **DATOS** — situación financiera disponible;
+4. **INTERPRETACIÓN** — estado general, estrategia actual y hallazgos relevantes;
+5. **RECOMENDACIÓN** — qué hacer, por qué e impacto esperado;
+6. **ALTERNATIVAS** — otras estrategias consideradas;
+7. **INCERTIDUMBRE** — qué vigilar y nivel de confianza;
+8. **CONCLUSIÓN** y siguiente paso;
 9. acción `Ver conversación` cuando exista.
+
+**Las alternativas van después de la recomendación.** Una versión anterior de
+este apartado las colocaba antes, en contra de `AXIS_FINAL` Parte IX §14 («qué
+recomienda hacer, cuánto dinero afecta, por qué lo recomienda, qué alternativas
+consideró») y de la Parte X §2. Para todo lo relativo al comportamiento de AXIS
+prevalece `AXIS_FINAL` (CLAUDE.md §4).
+
+El motivo es de lectura: el usuario debe entender primero qué le conviene hacer
+y por qué; las opciones descartadas son contexto de esa decisión, no una lista
+que haya que recorrer antes de conocerla.
+
+Las cuatro capas en mayúsculas —datos, interpretación, recomendación e
+incertidumbre— deben distinguirse por una **etiqueta de texto explícita**, y
+nunca solo por color (§31 y §22.6).
 
 ## 22.3 Cuando no hay recomendación
 
@@ -754,6 +860,41 @@ Debe:
 - usar mensajes claros;
 - diferenciar datos, interpretación y recomendación;
 - no parecer una aplicación de chat genérica.
+
+## 22.4b Burbuja de AXIS
+
+Referencia estética: `docs/design/FINAX_AXIS_VISUAL_REFERENCE.png`.
+
+La burbuja es la **presencia visual de AXIS** dentro de la aplicación y la
+puerta contextual a su superficie. No es un chat, ni un adorno, ni una tarjeta
+informativa.
+
+Forma: núcleo circular claro con dos puntos, halo suave y sensación de
+profundidad. La referencia usa violeta; **en Finax se adapta a la paleta
+aprobada**: halo de `--color-primary` con apoyo de `--color-secondary`, y los
+puntos en secundario. Sin colores nuevos, sin neón, sin partículas, sin
+estética de «IA genérica».
+
+El halo se construye con capas difuminadas de color, no con `box-shadow`: no
+es elevación, es luminosidad. Es el único elemento del sistema que lo lleva.
+
+### Estados
+
+| Estado | Cuándo | Aspecto |
+|---|---|---|
+| `dormant` | no hay nada relevante | presencia mínima, halo tenue |
+| `available` | AXIS está listo | presencia normal |
+| `pressed` | al pulsar | contracción breve y anillo de expansión |
+| `expanded` | al abrir AXIS | crecimiento y halo pleno |
+
+Las transiciones duran 200–300 ms y respetan `prefers-reduced-motion` (§13).
+
+La burbuja es un control accesible: área táctil mínima de 44 × 44 px, etiqueta
+descriptiva, foco visible y manejo por teclado. Su estado no depende solo del
+color (§31).
+
+En Inicio su tamaño es menor que el del patrimonio: AXIS debe estar presente y
+disponible, nunca dominar la pantalla.
 
 ## 22.5 Elementos prohibidos
 
@@ -805,6 +946,8 @@ Orden:
 - al corregir un campo, su error desaparece;
 - guardar utiliza acción primaria.
 
+El campo de fecha es **solo fecha**, sin hora (D-18).
+
 No incluir Cuenta.
 
 ---
@@ -816,7 +959,7 @@ No incluir Cuenta.
 - tipo;
 - nombre;
 - importe;
-- fecha/hora;
+- fecha, sin hora (D-18);
 - categoría;
 - Motivo;
 - Nota.
@@ -870,18 +1013,19 @@ No convertir filtros simples en una pantalla de configuración avanzada.
 
 Ajustes **no es una de las cinco secciones principales**.
 
-Es una superficie secundaria de configuración y utilidades.
+Es una superficie secundaria de configuración y utilidades, **accesible desde la cabecera**
+(D-19, aprobado el 2026-08-15).
 
 ## 27.1 Contenido V1
 
-Solo mostrar opciones que formen parte real de V1:
+Contenido visual aprobado en D-19:
 
-- preferencias de apariencia cuando exista una decisión aprobada;
-- notificaciones dentro de la aplicación cuando corresponda;
-- copia de seguridad;
-- exportar/restaurar datos;
-- ayuda básica;
-- información de Finax.
+- **Exportar datos**;
+- **Importar / restaurar datos**;
+- **privacidad**;
+- **información básica**.
+
+No añadir otras opciones sin aprobación, aunque parezcan naturales en una pantalla de ajustes.
 
 ## 27.2 Prohibido
 
@@ -897,7 +1041,8 @@ No añadir:
 - anuncios;
 - funciones sociales.
 
-El sistema de copia de seguridad/exportación/restauración forma parte de V1 Core según la especificación de producto vigente.
+El sistema de copia de seguridad, exportación y restauración forma parte de V1, conforme a D-19 y a
+los principios de backup de `TECH_STACK.md` §21.
 
 ---
 
@@ -978,10 +1123,8 @@ Los gráficos deben ser:
 
 ### Ingresos vs gastos
 
-Mientras D-02 siga PENDIENTE:
-
-- priorizar separación mediante labels, signo, jerarquía y estructura;
-- no fijar una paleta semántica nueva.
+Utilizar `--color-income` y `--color-expense` (D-17), combinados **siempre** con labels, signo,
+jerarquía y estructura. El color nunca es el único portador de la diferencia.
 
 ### Donut / distribución
 
@@ -1041,6 +1184,7 @@ Componentes reutilizables:
 - ChartCard
 - ObjectiveCard
 - AXISCard
+- AXISBubble
 - BottomNavigation
 - PageHeader
 - FilterChip
@@ -1135,8 +1279,8 @@ Antes de modificar UI, Claude Code debe leer:
 3. `docs/product/AXIS_FINAL.docx`;
 4. `docs/product/DECISIONES.md`;
 5. `docs/design/DESIGN_SYSTEM_FINAX.md`;
-6. `docs/design/FINAX_VISUAL_SYSTEM_V1_1.md`;
-7. `docs/design/FINAX_VISUAL_REFERENCE_V2.png`;
+6. `docs/design/FINAX_VISUAL_SYSTEM_V1_FINAL.md`;
+7. `docs/design/FINAX_VISUAL_REFERENCE.png`;
 8. `TECH_STACK.md`.
 
 ### Cuando encuentre una duda
@@ -1169,14 +1313,19 @@ No modificar fuentes normativas para justificar una implementación que ya se ha
 - exclusión de voz e imágenes en AXIS;
 - exclusión de imágenes en Objetivos;
 - ausencia de login/registro;
-- ausencia de Cuentas y Presupuesto.
+- ausencia de Cuentas y Presupuesto;
+- curva de evolución integrada en el patrimonio de Mi Dinero, y análisis completo reservado a
+  Estadísticas (D-21);
+- paleta semántica completa, incluidos advertencia, información, ingresos, gastos y tinte
+  secundario (D-17);
+- fecha sin hora en los movimientos (D-18);
+- Ajustes como superficie secundaria desde la cabecera (D-19);
+- navegación inferior de cinco secciones: Inicio, Mi Dinero, Inversiones, Objetivos y AXIS (D-20);
+- Movimientos y Estadísticas como superficies accesibles desde Mi Dinero (D-20).
 
 ### Pendiente
 
-- reparto definitivo de las cinco secciones de navegación;
-- paleta categórica de gráficos;
-- color específico para distinguir ingresos/gastos;
-- tinte claro secundario;
+- **paleta categórica de gráficos** (D-03): bloquea el donut y cualquier gráfico por categoría;
 - cualquier decisión todavía marcada como PENDIENTE en `DECISIONES.md`.
 
 ---
@@ -1224,14 +1373,22 @@ Orden:
 Eliminar siempre requiere confirmación.
 
 ## 41.3 Nueva inversión
-Orden:
+
+Campos que introduce el usuario, y **solo estos** (D-22):
+
 1. `Nueva inversión`
-2. Activo/nombre
-3. Tipo
-4. Participaciones
-5. Precio de compra
-6. Fecha
-7. `Guardar`
+2. **Activo**
+3. **Importe invertido**
+4. **Fecha**
+5. `Guardar`
+
+El usuario **NO introduce participaciones ni precio de compra**. Finax obtiene
+el precio histórico de esa fecha y calcula las participaciones equivalentes
+mediante la fuente de datos correspondiente, cuando esa integración exista
+(Documento Maestro, Módulo 4 §3 y §5: «evitando que el usuario tenga que
+introducir precios manualmente»).
+
+Tampoco hay campo de tipo de activo mientras producto no lo defina.
 
 No conexión bancaria ni sincronización con broker.
 
@@ -1246,20 +1403,27 @@ Mostrar:
 - última actualización;
 - editar/eliminar cuando corresponda.
 
+Salvo el activo, el importe invertido y la fecha, todo lo anterior es
+**derivado** y no editable a mano (D-22). Editar una inversión significa
+corregir esos tres datos, no sus resultados.
+
 ## 41.5 Ajustes
+Superficie secundaria accesible desde la cabecera, no desde la barra inferior (D-19).
+
 Cabecera `Ajustes`.
 
 Bloques:
 - Datos y respaldo
-- Apariencia
-- Información
 - Privacidad
+- Información
 
 V1:
 - `Exportar datos`
 - `Importar / restaurar datos`
 - información sobre almacenamiento local
 - información básica de privacidad
+
+No incluir un bloque de Apariencia: no existe ninguna preferencia de apariencia aprobada.
 
 No:
 - login;
@@ -1283,7 +1447,23 @@ CTA: `Añadir inversión`
 ## 41.8 Estado vacío — Objetivos
 Título: `Todavía no tienes objetivos`
 Texto: `Crea una meta para empezar a seguir tu progreso.`
-CTA: `Nuevo objetivo`
+CTA: `Crear objetivo`
+
+El CTA usa el mismo verbo que la acción de la cabecera y que el botón del
+formulario (§41.1), para que la misma acción se llame igual en toda la
+pantalla.
+
+## 41.8b Inicio — acceso a AXIS
+
+Copy oficial del acceso contextual a AXIS en Inicio. **No cambiar, no acortar,
+no sustituir:**
+
+Etiqueta: `AXIS`
+Pregunta: `¿Cómo puedes mejorar tu situación financiera?`
+Acceso: `Ver análisis`
+
+Es una pregunta, no una conclusión: puede mostrarse aunque AXIS todavía no
+haya analizado nada.
 
 ## 41.9 AXIS — sin recomendación
 Título: `No hace falta actuar ahora`
@@ -1312,53 +1492,56 @@ Evitar:
 
 # 43. Mapa definitivo de pantallas
 
-### Inicio
+Secciones de la barra inferior (D-20): **Inicio · Mi Dinero · Inversiones · Objetivos · AXIS**.
+
+### Inicio · barra
 - `/`
 - estado normal
 - estado sin recomendaciones
 - estados con datos insuficientes
 
-### Mi Dinero
+### Mi Dinero · barra
 - `/mi-dinero`
 - estado normal
 - estado vacío
 - modificar saldo inicial
+- acceso a Movimientos y a Estadísticas
 
-### Movimientos
-- superficie secundaria desde Mi Dinero
+### Movimientos · secundaria
+- superficie secundaria desde Mi Dinero, mediante `Ver todos`
 - lista
 - nuevo movimiento
 - detalle
 - editar
 
-### Estadísticas
-- `/estadisticas`
+### Estadísticas · secundaria con ruta propia
+- `/estadisticas`, accesible desde Mi Dinero
 - estado normal
 - estado vacío
 
-### Inversiones
+### Inversiones · barra
 - `/inversiones`
 - estado normal
 - nueva inversión
 - detalle
 - edición
 
-### Objetivos
+### Objetivos · barra
 - `/objetivos`
 - estado normal
 - nuevo objetivo
 - detalle
 - edición
 
-### AXIS
+### AXIS · barra
 - `/axis`
 - Centro Estratégico
 - chat secundario
 - contexto insuficiente
 - sin recomendación
 
-### Ajustes
-- acceso secundario desde cabecera
+### Ajustes · secundaria
+- acceso desde la cabecera, nunca desde la barra inferior
 - backup/exportación/restauración
 - privacidad/información
 

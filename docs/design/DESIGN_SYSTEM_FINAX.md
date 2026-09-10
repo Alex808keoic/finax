@@ -1,8 +1,9 @@
 # Finax — Design System
 
-**Versión:** Core v1.1  
+**Versión:** Core v1.3  
 **Estado:** Oficial para la implementación visual, salvo elementos marcados como PENDIENTE  
-**Última actualización:** 2026-08-14 — incorpora las decisiones aprobadas en `docs/product/DECISIONES.md`
+**Última actualización:** 2026-08-16 — incorpora las decisiones aprobadas en `docs/product/DECISIONES.md` hasta D-25  
+**Especificación visual concreta:** `docs/design/FINAX_VISUAL_SYSTEM_V1_FINAL.md`
 
 ---
 
@@ -42,7 +43,9 @@ Su carácter es **ilustrativo**, no normativo.
 |---|---|
 | Documento Maestro | fuente de verdad del producto |
 | `AXIS_FINAL` | fuente normativa de AXIS |
-| Este Design System | fuente normativa del sistema visual |
+| `DECISIONES.md` | decisiones de producto aprobadas posteriormente |
+| Este Design System | reglas normativas globales del sistema visual |
+| `FINAX_VISUAL_SYSTEM_V1_FINAL.md` | especificación visual concreta de pantallas y componentes |
 | `FINAX_VISUAL_REFERENCE.png` | referencia visual ilustrativa |
 
 Reglas:
@@ -120,17 +123,30 @@ Primario y secundario fueron aprobados el 2026-08-14 (`docs/product/DECISIONES.m
 | Token | Valor | Uso |
 |---|---|---|
 | `--color-success` | `#22C55E` | éxito |
-| `--color-danger` | `#EF4444` | peligro |
+| `--color-danger` | `#EF4444` | peligro y acciones destructivas |
+| `--color-warning` | `#F59E0B` | advertencias |
+| `--color-info` | `#6B7280` | información neutral |
+| `--color-income` | `#22C55E` | ingresos |
+| `--color-expense` | `#EF4444` | gastos |
+| `--color-secondary-tint` | `#DCE8FF` | fondos y estados secundarios |
 
-Aprobados el 2026-08-14 (D-02).
+Éxito y peligro se aprobaron el 2026-08-14 (D-02). El resto, el 2026-08-15 (D-17), que cierra los PENDIENTES anteriores de advertencia, información, color de ingresos frente a gastos y tinte claro secundario.
 
-**PENDIENTE:** **Advertencia** e **Información** no están aprobados como tokens. No crear tokens ni valores provisionales equivalentes.
+`--color-income` comparte valor con `--color-success`, y `--color-expense` con `--color-danger`. Son tokens distintos a propósito: significan cosas distintas y podrían divergir.
 
-**PENDIENTE:** no está decidido qué color representa los importes de ingreso frente a los de gasto, ni la relación entre el primario `#00CBA0` y el verde de éxito `#22C55E`.
+### Ingresos y gastos
 
-**PENDIENTE:** el token secundario anterior (`#DCE8FF`) actuaba como tinte claro de fondo. `#2D7FF9` es un acento saturado y no cumple esa función. Si se necesita un tinte claro, debe aprobarse antes de crearlo.
+Los ingresos usan `--color-income` y los gastos `--color-expense`, combinados **siempre** con signo, copy y jerarquía. **Nunca depender únicamente del color** (§31).
 
-**PENDIENTE:** color de texto sobre superficies primarias. Texto blanco sobre `#00CBA0` ofrece un contraste aproximado de 2,1:1, insuficiente según §31; texto oscuro sobre `#00CBA0` ofrece aproximadamente 10:1. Blanco sobre `#2D7FF9` ofrece aproximadamente 3,8:1, válido solo para texto grande. La regla debe aprobarse antes de construir el botón primario.
+### Texto sobre superficies primarias
+
+Aprobado el 2026-08-14 (D-12).
+
+Sobre relleno `#00CBA0`, el texto es **`#111111`** (`--color-text-primary`). Contraste: 9,13:1.
+
+No se crea ningún tono oscuro adicional del primario. Texto blanco sobre `#00CBA0` da 2,07:1 y no cumple el §31, ni siquiera para texto grande, aunque la referencia visual lo muestre así.
+
+Blanco sobre `#2D7FF9` da 3,81:1: válido solo para texto grande. Su uso como superficie de texto normal no está aprobado.
 
 ### Paleta categórica de gráficos
 
@@ -146,16 +162,48 @@ Fuente oficial:
 
 No introducir una segunda familia tipográfica.
 
-| Uso | Tamaño |
-|---|---:|
-| Título principal | 32 px |
-| Subtítulo / sección | 20 px |
-| Texto normal | 16 px |
-| Texto pequeño | 13 px |
+| Nivel | Uso | Tamaño |
+|---|---|---:|
+| `hero` | Cifra financiera protagonista | 48 px |
+| Título principal | Título de pantalla y cifra financiera secundaria | 32 px |
+| Subtítulo / sección | Títulos de sección | 20 px |
+| Texto normal | Contenido | 16 px |
+| Texto pequeño | Metadatos y texto auxiliar | 13 px |
+
+La escala tiene cinco niveles y está cerrada. No añadir tamaños intermedios.
 
 La jerarquía tipográfica debe ser clara.
 
-Evitar utilizar demasiados tamaños diferentes.
+### Nivel `hero` (48 px)
+
+Aprobado el 2026-08-16 (D-25). Formalizado a partir del diseño aprobado de Mi Dinero en la Fase D3, donde ya estaba en uso.
+
+Es el tamaño reservado a **la cifra que da sentido a la pantalla**: aquella que el usuario busca antes que cualquier otra cosa.
+
+Usos permitidos:
+
+- el patrimonio principal;
+- el patrimonio invertido cuando sea la cifra protagonista de la pantalla;
+- otras cifras financieras de máxima jerarquía **solo cuando el Visual System lo indique expresamente**.
+
+Reglas:
+
+- **una sola cifra `hero` por pantalla.** Dos cifras a 48 px se anulan entre sí y destruyen la jerarquía;
+- si la cifra financiera de una pantalla no es su elemento principal, usar 32 px;
+- `hero` no se aplica nunca a títulos, etiquetas ni texto no numérico;
+- no derivar de este nivel una familia de tamaños grandes (40, 56, 64…).
+
+En el código corresponde a `MoneyFigure size="hero"`, que ya usaba ese nombre antes de esta decisión. Ningún tamaño se escribe suelto: la primitiva es la única que fija la escala de las cifras.
+
+Una cifra financiera se compone de entero y decimales, y cada nivel fija ambos:
+
+| `MoneyFigure` | Entero | Decimales |
+|---|---:|---:|
+| `hero` | 48 px | 20 px |
+| `lg` | 32 px | 16 px |
+| `md` | 20 px | 13 px |
+
+Los decimales van siempre un nivel por debajo del entero: la cifra debe leerse de un vistazo por su parte entera.
 
 ---
 
@@ -222,6 +270,14 @@ Confirmado el 2026-08-14 (D-11).
 Altura:
 
 **52 px**
+
+Color (2026-08-14, D-12):
+
+- relleno `#00CBA0` (`--color-primary`);
+- texto `#111111` (`--color-text-primary`);
+- contraste 9,13:1.
+
+No utilizar texto blanco sobre el primario, aunque así aparezca en la referencia visual: incumple el §31.
 
 ### Área táctil mínima
 
@@ -351,7 +407,9 @@ No convertir la pantalla en una tabla financiera densa.
 
 Estadísticas es un **módulo/ruta propio**, no una vista interna de Mi Dinero (2026-08-14, D-06).
 
-**PENDIENTE:** el Documento Maestro (Módulo 2 §4) lista gráficos de evolución y distribución por categorías también entre los componentes de Mi Dinero. El reparto exacto de gráficos entre ambos módulos no está aprobado.
+No es una pestaña de la barra inferior: se accede desde Mi Dinero y conserva su ruta `/estadisticas` (2026-08-15, D-20).
+
+Reparto de gráficos (2026-08-15, D-21): **Mi Dinero** lleva la curva compacta de evolución del patrimonio, integrada en el bloque de patrimonio. **Estadísticas** lleva el análisis completo: periodos, comparaciones, métricas, gráficos detallados y categorías. No duplicar la misma gráfica completa en las dos pantallas.
 
 Las estadísticas deben priorizar comprensión sobre cantidad.
 
@@ -557,9 +615,25 @@ Características:
 - estados activo/inactivo claramente diferenciados;
 - sin sombras pesadas.
 
-El contenido exacto de las pestañas debe seguir la especificación final.
+### Contenido definitivo (2026-08-15, D-20)
 
-**PENDIENTE:** el reparto definitivo de la navegación no está aprobado. Existen seis destinos candidatos (Inicio, Mi Dinero, Estadísticas, Inversiones, Objetivos, AXIS) tras D-06, D-07 y D-08. Mientras siga abierto, utilizar `MOCK` y no inventar destinos.
+La barra inferior tiene **cinco secciones**:
+
+1. Inicio
+2. Mi Dinero
+3. Inversiones
+4. Objetivos
+5. AXIS
+
+No añadir una sexta pestaña.
+
+Superficies fuera de la barra:
+
+| Superficie | Acceso |
+|---|---|
+| Movimientos | desde Mi Dinero, mediante «Ver todos» |
+| Estadísticas | desde Mi Dinero. Conserva su ruta propia (D-06) |
+| Ajustes | desde la cabecera (D-19) |
 
 **Cuentas** y **Presupuesto** aparecen en la referencia visual pero **no forman parte de V1** (D-08). No deben aparecer en la navegación ni implementarse.
 
@@ -604,14 +678,33 @@ Los errores deben mostrarse cerca del campo afectado.
 
 No pedir información que Finax no necesite realmente.
 
-### Formulario de movimiento (2026-08-14, D-04 y D-05)
+### Formulario de movimiento (2026-08-14, D-04, D-05 y D-13)
 
-Categorías, exactamente: **Comida · Restaurantes · Salidas · Caprichos · Ropa · Otros**. No añadir, renombrar ni reordenar.
+Las listas de categorías son **independientes** y no deben mezclarse:
 
-- **Motivo:** obligatorio únicamente cuando la categoría sea «Otros». Su texto sustituye a la palabra «Otros» en el historial.
-- **Nota:** campo opcional, separado del Motivo, que **no** lo sustituye.
+| Tipo | Categorías |
+|---|---|
+| Gasto | **Comida · Restaurantes · Salidas · Caprichos · Ropa · Otros** |
+| Ingreso | **Trabajo · Regalos · Otros** |
 
-**PENDIENTE:** disponibilidad de la Nota por categoría y su presencia en el historial frente a la ficha de detalle.
+No añadir, renombrar ni reordenar ninguna de las dos listas.
+
+- **Motivo:** obligatorio **siempre que la categoría sea «Otros»**, tanto en gastos como en ingresos. Su texto sustituye a la palabra «Otros» en el historial.
+- **Nota:** campo opcional, separado del Motivo, que **no** lo sustituye. Disponible en **todas** las categorías, incluida «Otros», donde ambos campos conviven.
+
+La Nota se muestra **únicamente en la ficha de detalle**. No debe aparecer en el historial.
+
+### Saldo inicial (2026-08-14, D-14)
+
+Se introduce en el primer arranque de Finax, antes de entrar en la aplicación, y puede modificarse después desde Mi Dinero con confirmación explícita. Nunca aparece como movimiento en el historial.
+
+### Borrado (2026-08-14, D-16)
+
+Cualquier borrado requiere confirmación explícita del usuario (§28).
+
+### Formato monetario (2026-08-14, D-16)
+
+EUR con formato es-ES, en toda la aplicación y no solo en los formularios.
 
 ---
 
@@ -691,8 +784,15 @@ Los iconos interactivos deben tener área táctil suficiente.
 :root {
   --color-primary: #00CBA0;
   --color-secondary: #2D7FF9;
+  --color-secondary-tint: #DCE8FF;
+
   --color-success: #22C55E;
   --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-info: #6B7280;
+
+  --color-income: #22C55E;
+  --color-expense: #EF4444;
 
   --color-background: #FFFFFF;
   --color-surface: #F7F7F7;
@@ -718,7 +818,7 @@ Los iconos interactivos deben tener área táctil suficiente.
 }
 ```
 
-No existen tokens de advertencia ni de información: no están aprobados (D-02).
+La paleta semántica está completa y cerrada (D-17).
 
 No existe paleta categórica de gráficos: no está aprobada (D-03).
 
@@ -731,12 +831,9 @@ El estado actualizado de las decisiones abiertas está en `docs/product/DECISION
 Las decisiones siguientes requieren aprobación si todavía no están cerradas:
 
 - detalles visuales que contradigan el Documento Maestro;
-- tokens de advertencia e información;
-- paleta categórica de gráficos;
-- color de texto sobre superficies primarias;
+- paleta categórica de gráficos (D-03);
 - comportamientos de componentes no especificados;
 - copy definitivo de AXIS cuando falte contexto;
-- destinos definitivos de navegación si no están cerrados;
 - estados financieros que dependan de datos no disponibles;
 - cualquier funcionalidad fuera de la especificación aprobada.
 
@@ -776,7 +873,8 @@ Antes de modificar la interfaz, Claude Code debe leer:
 5. `docs/product/AXIS_FINAL.docx`
 6. `docs/product/DECISIONES.md`
 7. `docs/design/DESIGN_SYSTEM_FINAX.md`
-8. `docs/design/FINAX_VISUAL_REFERENCE.png`
+8. `docs/design/FINAX_VISUAL_SYSTEM_V1_FINAL.md`
+9. `docs/design/FINAX_VISUAL_REFERENCE.png`
 
 Debe:
 

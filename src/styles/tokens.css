@@ -2,26 +2,44 @@
  * Tokens oficiales de Finax.
  *
  * Fuente normativa: docs/design/DESIGN_SYSTEM_FINAX.md §32.
- * Decisiones aprobadas: docs/product/DECISIONES.md (D-01, D-02, D-11).
+ * Especificación visual: docs/design/FINAX_VISUAL_SYSTEM_V1_FINAL.md §4.
+ * Decisiones aprobadas: docs/product/DECISIONES.md (D-01, D-02, D-11, D-12, D-17).
  *
  * Este archivo es la única definición de los tokens. No duplicar valores
  * en componentes ni introducir colores fuera de esta lista.
  *
- * NO EXISTEN todavía, por decisión del Product Owner:
- *   - tokens de advertencia e información (D-02, PENDIENTE);
- *   - paleta categórica de gráficos (D-03, PENDIENTE);
- *   - regla de color de texto sobre superficies primarias (D-01, PENDIENTE).
- * No crearlos sin aprobación.
+ * NO EXISTE todavía, por decisión del Product Owner:
+ *   - la paleta categórica de gráficos (D-03, PENDIENTE).
+ * No inventar colores de categoría ni derivarlos de estos tokens.
  */
 
 /* Los colores se declaran en @theme para que Tailwind genere las utilidades
    correspondientes con los mismos nombres definidos en el Design System. */
 @theme {
+  /* Marca */
   --color-primary: #00cba0;
   --color-secondary: #2d7ff9;
+  --color-secondary-tint: #dce8ff;
+
+  /* Semánticos (D-02 y D-17) */
   --color-success: #22c55e;
   --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #6b7280;
 
+  /*
+   * Financieros (D-17).
+   * Comparten valor con success/danger a propósito: significan cosas
+   * distintas y podrían divergir. Usar siempre el token que corresponde
+   * al significado, no al color.
+   *
+   * El color nunca es el único portador de la diferencia entre ingreso y
+   * gasto: debe combinarse siempre con signo, copy y jerarquía (§31).
+   */
+  --color-income: #22c55e;
+  --color-expense: #ef4444;
+
+  /* Superficies y texto */
   --color-background: #ffffff;
   --color-surface: #f7f7f7;
   --color-text-primary: #111111;
